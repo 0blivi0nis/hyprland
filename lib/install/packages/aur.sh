@@ -7,11 +7,23 @@ aur_helper=""
 _selectAURHelper() {
     echo ":: Please select your preferred AUR Helper"
     echo
-    aur_helper=$(gum choose "yay" "paru" "pikaur" "trizen" "aurman" "pacaur" "pakku")
+    aur_helper=$(gum choose "yay" "paru" "pikaur" "trizen" "aurman" "pacaur" "pakku" "advanced")
     if [ -z $aur_helper ] ;then
         _selectAURHelper
     fi
-    if command -v "$aur_helper" &> /dev/null; then
+
+    if [ "$aur_helper" == "advanced" ] ; then
+    	if gum confirm "This option is for non-wrapper helpers only, are you sure you want to continue?"; then
+    		echo "Make sure the packages in the share/packages/general.sh & share/packages/hyprland.sh are installed"
+            if gum confirm "Are you sure you want to continue?"; then
+                echo "Continuing.."
+            else
+                exit 1
+            fi
+    	else
+    		_selectAURHelper
+    	fi
+    elif command -v "$aur_helper" &> /dev/null; then
         echo ":: $aur_helper is already installed."
         return 0
     else
