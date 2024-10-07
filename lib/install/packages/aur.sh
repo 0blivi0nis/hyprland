@@ -17,8 +17,9 @@ _selectAURHelper() {
     		echo "Make sure the packages in the share/packages/general.sh & share/packages/hyprland.sh are installed"
             if gum confirm "Are you sure you want to continue?"; then
                 echo "Continuing.."
+                aur_helper="pacman"
             else
-                exit 1
+                _selectAURHelper
             fi
     	else
     		_selectAURHelper
